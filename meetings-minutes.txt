@@ -1,0 +1,12 @@
+### Minutes of the Meeting
+
+# updates:
+1. Exposed API endpoints for ML Model POST /generate_questions and POST /evaluate_candidate_audio_response_for_given_question.
+2. Implmented endpoints for /assessments and /assessments/{assessment_id} to get all assessments and a specific assessment respectively.
+3. Implemented endpoints for /responses and /responses/{response_id} to get all responses and a specific response respectively.
+
+
+## Discussion Points:
+1. Implement async/await or multithreading in the model to reduce the time taken  to respond to the user.
+2. Unable to interpreate the Analytics Entityset. Need to discuss with the team to understand the requirements. possible modifications to the ER diagram.
+3. Possible creation of a new entityset to audio files seperate from the responses entityset. because the audio files are large so storing them in the same entityset as arrays is not a good idea.

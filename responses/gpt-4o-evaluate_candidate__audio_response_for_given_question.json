@@ -1,0 +1,40 @@
+{
+  "Detailed Results": [
+    {
+      "Question": "\"What is the difference between weak AI and strong AI?\"",
+      "Reference Answer": "The distinction between weak AI and strong AI is a fundamental concept in the field of artificial intelligence (AI), and understanding this difference is crucial for anyone involved in AI engineering. Here’s a comprehensive explanation:\n\n### Weak AI (Narrow AI)\n\n**Definition:**\nWeak AI, also known as Narrow AI, refers to AI systems that are designed and trained to perform specific tasks. These systems do not possess general intelligence or consciousness; instead, they excel at particular applications within a limited domain.\n\n**Characteristics:**\n1. **Task-Specific:** Weak AI is designed to handle a specific problem or a set of tasks. For example, a machine learning model that can recognize faces in images or a chatbot that can handle customer service queries.\n2. **L",
+      "Scores": {
+        "Category": "Inaccurate",
+        "Coherence": 0.5,
+        "Communication Skills": 0.35833333333333334,
+        "Critical Thinking": 0.32193158953722334,
+        "Depth of Answer": 0.27927927927927926,
+        "Keyword Match Ratio": 0.013513513513513514,
+        "Relevance Score": 0.03219315895372234
+      },
+      "Transcribed Answer": " The stale smell of old beer lingers. It takes heat to bring out the odor. A cold dip restores health and zest. A salt pickle tastes fine with ham. Tacos al pastor are my favorite. A zestful food is the hot cross bun."
+    }
+  ],
+  "Overall Interview Score": 0.250875145769512,
+  "Overall Visual Representation": "overall_evaluation_report.png",
+  "Question-wise Scores": {
+    "Coherence": [
+      0.5
+    ],
+    "Communication Skills": [
+      0.35833333333333334
+    ],
+    "Critical Thinking": [
+      0.32193158953722334
+    ],
+    "Depth of Answer": [
+      0.27927927927927926
+    ],
+    "Keyword Match Ratio": [
+      0.013513513513513514
+    ],
+    "Relevance Score": [
+      0.03219315895372234
+    ]
+  }
+}

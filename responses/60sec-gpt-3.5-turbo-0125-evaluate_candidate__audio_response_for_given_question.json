@@ -1,0 +1,40 @@
+{
+  "Detailed Results": [
+    {
+      "Question": "\"What is the difference between weak AI and strong AI?\"",
+      "Reference Answer": "Weak AI, also known as Narrow AI, refers to AI systems that are designed and trained for specific tasks or domains. These systems are limited in their capabilities and do not possess general intelligence or consciousness. Weak AI is focused on narrow tasks such as speech recognition, image classification, or language translation. Examples of weak AI include virtual assistants like Siri or Alexa, recommendation systems, and chatbots.\n\nOn the other hand, Strong AI, also known as Artificial General Intelligence (AGI) or Human-Level AI, aims to create machines that can perform any intellectual task that a human can do. Strong AI would possess general intelligence, be able to understand and learn any intellectual task, and potentially have consciousness and self-awareness. Strong AI would be able to adapt",
+      "Scores": {
+        "Category": "General",
+        "Coherence": 1,
+        "Communication Skills": 0.8888888888888888,
+        "Critical Thinking": 0.8516129032258064,
+        "Depth of Answer": 0.9112207151664612,
+        "Keyword Match Ratio": 0.4027777777777778,
+        "Relevance Score": 0.08516129032258064
+      },
+      "Transcribed Answer": " Weak AI and strong AI are two different categories that represent varying levels of artificial intelligence capabilities. Weak AI also known as narrow AI refers to AI systems that are designed and trained for specific tasks or a narrow range of tasks. These AI systems are focused on performing a particular job or solving a specific problem with an limited context. Weak AI is capable of gender, intelligence and understanding beyond its profile scope. Examples of weak AI excludes virtual assistants like CRE, chatbot, recommendation system and image recognition software. Strong AI, artificial general intelligence, AGI, strong AI also known as artificial intelligence refers to AI systems that exhibits human-like cognitive abilities."
+    }
+  ],
+  "Overall Interview Score": 0.6899435958969192,
+  "Overall Visual Representation": "overall_evaluation_report.png",
+  "Question-wise Scores": {
+    "Coherence": [
+      1
+    ],
+    "Communication Skills": [
+      0.8888888888888888
+    ],
+    "Critical Thinking": [
+      0.8516129032258064
+    ],
+    "Depth of Answer": [
+      0.9112207151664612
+    ],
+    "Keyword Match Ratio": [
+      0.4027777777777778
+    ],
+    "Relevance Score": [
+      0.08516129032258064
+    ]
+  }
+}

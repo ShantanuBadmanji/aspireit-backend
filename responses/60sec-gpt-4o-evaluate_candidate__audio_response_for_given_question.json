@@ -1,0 +1,40 @@
+{
+  "Detailed Results": [
+    {
+      "Question": "\"What is the difference between weak AI and strong AI?\"",
+      "Reference Answer": "Weak AI, also known as Narrow AI, is designed to perform a specific task such as voice recognition, recommendation systems, or image recognition. It operates under a limited context and doesn't possess genuine intelligence or self-awareness despite its ability to perform tasks that normally require human intelligence. Examples of Weak AI include Siri, Alexa, and Google Assistant.\n\nOn the other hand, Strong AI, also known as Artificial General Intelligence (AGI), refers to a type of artificial intelligence that has the ability to understand, learn, adapt, and implement knowledge from one domain to another just as a human being would. It has the capability to reason, solve puzzles, make judgments, plan, and learn from experience. Strong AI doesn't just mimic human intelligence, it",
+      "Scores": {
+        "Category": "Inaccurate",
+        "Coherence": 1,
+        "Communication Skills": 0.9180327868852459,
+        "Critical Thinking": 0.6675392670157068,
+        "Depth of Answer": 0.9366286438529785,
+        "Keyword Match Ratio": 0.29333333333333333,
+        "Relevance Score": 0.06675392670157068
+      },
+      "Transcribed Answer": " Weak AI and strong AI are two different categories that represent varying levels of artificial intelligence capabilities. Weak AI also known as narrow AI refers to AI systems that are designed and trained for specific tasks or a narrow range of tasks. These AI systems are focused on performing a particular job or solving a specific problem with an limited context. Weak AI is capable of gender, intelligence and understanding beyond its profile scope. Examples of weak AI excludes virtual assistants like CRE, chatbot, recommendation system and image recognition software. Strong AI, artificial general intelligence, AGI, strong AI also known as artificial intelligence refers to AI systems that exhibits human-like cognitive abilities."
+    }
+  ],
+  "Overall Interview Score": 0.6470479929648059,
+  "Overall Visual Representation": "overall_evaluation_report.png",
+  "Question-wise Scores": {
+    "Coherence": [
+      1
+    ],
+    "Communication Skills": [
+      0.9180327868852459
+    ],
+    "Critical Thinking": [
+      0.6675392670157068
+    ],
+    "Depth of Answer": [
+      0.9366286438529785
+    ],
+    "Keyword Match Ratio": [
+      0.29333333333333333
+    ],
+    "Relevance Score": [
+      0.06675392670157068
+    ]
+  }
+}

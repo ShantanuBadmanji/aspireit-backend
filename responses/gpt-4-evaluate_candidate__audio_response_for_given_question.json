@@ -1,0 +1,40 @@
+{
+  "Detailed Results": [
+    {
+      "Question": "\"What is the difference between weak AI and strong AI?\"",
+      "Reference Answer": "Weak AI, also known as narrow AI, refers to artificial intelligence systems designed and trained for a specific task. These systems operate under a limited set of constraints and are specifically programmed to do a single task, such as voice recognition, recommendation systems, or image recognition. They do not possess any genuine intelligence or consciousness, but they simulate human intelligence based on a set of rules and strategies. Examples of weak AI include Siri, Alexa, and Google Assistant.\n\nOn the other hand, Strong AI, also known as artificial general intelligence (AGI), refers to a type of artificial intelligence that has the ability to understand, learn, adapt, and implement knowledge in a way that can successfully perform any intellectual task that a human being can. It is a form of",
+      "Scores": {
+        "Category": "Inaccurate",
+        "Coherence": 1,
+        "Communication Skills": 0.3333333333333333,
+        "Critical Thinking": 0.27370478983382207,
+        "Depth of Answer": 0.2692307692307692,
+        "Keyword Match Ratio": 0.02631578947368421,
+        "Relevance Score": 0.02737047898338221
+      },
+      "Transcribed Answer": " The stale smell of old beer lingers. It takes heat to bring out the odor. A cold dip restores health and zest. A salt pickle tastes fine with ham. Tacos al pastor are my favorite. A zestful food is the hot cross bun."
+    }
+  ],
+  "Overall Interview Score": 0.32165919347583183,
+  "Overall Visual Representation": "overall_evaluation_report.png",
+  "Question-wise Scores": {
+    "Coherence": [
+      1
+    ],
+    "Communication Skills": [
+      0.3333333333333333
+    ],
+    "Critical Thinking": [
+      0.27370478983382207
+    ],
+    "Depth of Answer": [
+      0.2692307692307692
+    ],
+    "Keyword Match Ratio": [
+      0.02631578947368421
+    ],
+    "Relevance Score": [
+      0.02737047898338221
+    ]
+  }
+}

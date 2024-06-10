@@ -1,0 +1,70 @@
+{
+  "candidateId": "665f2b954009ba58a1b41f52",
+  "name": "p1",
+  "email": "p1@gmail.com",
+  "domain": "Software",
+  "links": [],
+  "assessments": [
+    {
+      "_id": "665f2d7a5c714c861f8c45e0",
+      "questions": [],
+      "role": "fullstack",
+      "duration": 2,
+      "createdAt": "2024-06-04T15:06:34.378Z",
+      "updatedAt": "2024-06-04T15:06:34.378Z",
+      "__v": 0
+    }
+  ],
+  "responses": [
+    {
+      "candidate_id": "665f2b954009ba58a1b41f52",
+      "assessment_id": "665f2d7a5c714c861f8c45e0",
+      "_id": "666019bce5d7c116d89c3a17",
+      "responses": [],
+      "createdAt": "2024-06-05T07:54:36.275Z",
+      "updatedAt": "2024-06-05T07:54:36.275Z",
+      "__v": 0
+    },
+    {
+      "candidate_id": "665f2b954009ba58a1b41f52",
+      "assessment_id": "665f2d7a5c714c861f8c45e0",
+      "_id": "665f4cb5121602b5eff28d14",
+      "responses": [],
+      "createdAt": "2024-06-04T17:19:49.688Z",
+      "updatedAt": "2024-06-04T17:19:49.688Z",
+      "__v": 0
+    }
+  ],
+  "questions": [
+    {
+      "question": "certainly! here's a complex interview question for an ai engineer that delves into object-oriented programming (oop):\n\n---\n\n**question:**\n\n\"given the importance of modular and maintainable code in ai system development, please describe how you would design a class hierarchy to manage different types of machine learning models (e.g., linear regression, decision trees, neural networks). in your explanation, include how you would handle common functionalities such as training, prediction, and evaluation, while ensuring code reusability and",
+      "accepted_keywords": [],
+      "difficulty": "medium",
+      "topic": "oops",
+      "_id": "666003be8211cd44727f35c7",
+      "createdAt": "2024-06-05T06:20:46.862Z",
+      "updatedAt": "2024-06-05T06:20:46.862Z",
+      "__v": 0
+    },
+    {
+      "question": "certainly! here's a complex interview question for an ai engineer focusing on object-oriented programming (oop):\n\n---\n\n**question:**\n\n\"imagine you are developing a complex ai system that involves multiple interacting components such as data ingestion, preprocessing, model training, and inference. how would you design this system using object-oriented programming principles to ensure scalability, maintainability, and reusability? specifically, describe how you would use inheritance, polymorphism, and encapsulation in your design. additionally, explain how",
+      "accepted_keywords": [],
+      "difficulty": "medium",
+      "topic": "oops",
+      "_id": "665f3fee600448bcfe405f59",
+      "createdAt": "2024-06-04T16:25:19.042Z",
+      "updatedAt": "2024-06-04T16:25:19.042Z",
+      "__v": 0
+    },
+    {
+      "question": "certainly! here's a complex interview question for an ai engineer focusing on object-oriented programming (oop):\n\n---\n\n**question:**\n\n\"imagine you are developing a complex ai system that involves multiple interacting components such as data ingestion, preprocessing, model training, and inference. how would you design this system using object-oriented programming principles to ensure scalability, maintainability, and reusability? specifically, describe how you would use inheritance, polymorphism, and encapsulation in your design. additionally, explain how",
+      "accepted_keywords": [],
+      "difficulty": "medium",
+      "topic": "oops",
+      "_id": "665f3fee600448bcfe405f59",
+      "createdAt": "2024-06-04T16:25:19.042Z",
+      "updatedAt": "2024-06-04T16:25:19.042Z",
+      "__v": 0
+    }
+  ]
+}

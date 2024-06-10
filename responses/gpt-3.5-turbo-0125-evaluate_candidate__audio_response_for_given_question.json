@@ -1,0 +1,40 @@
+{
+  "Detailed Results": [
+    {
+      "Question": "\"What is the difference between weak AI and strong AI?\"",
+      "Reference Answer": "Weak AI and strong AI are two categories that describe the capabilities and characteristics of artificial intelligence systems.\n\n1. Weak AI (Narrow AI):\n- Weak AI, also known as Narrow AI, refers to AI systems that are designed and trained for specific tasks or narrow domains.\n- These systems are focused on performing a single task or a limited set of tasks, and they do not possess general intelligence or consciousness.\n- Examples of weak AI include virtual assistants like Siri, Alexa, and Google Assistant, as well as recommendation algorithms used by streaming services and e-commerce platforms.\n- Weak AI systems are limited in scope and cannot perform tasks outside of their predefined functions.\n\n2. Strong AI (General AI):\n- Strong AI, also known as General AI or Artificial General",
+      "Scores": {
+        "Category": "Inaccurate",
+        "Coherence": 0.5,
+        "Communication Skills": 0.33076923076923076,
+        "Critical Thinking": 0.31683168316831684,
+        "Depth of Answer": 0.27364438839848676,
+        "Keyword Match Ratio": 0.014492753623188406,
+        "Relevance Score": 0.031683168316831684
+      },
+      "Transcribed Answer": " The stale smell of old beer lingers. It takes heat to bring out the odor. A cold dip restores health and zest. A salt pickle tastes fine with ham. Tacos al pastor are my favorite. A zestful food is the hot cross bun."
+    }
+  ],
+  "Overall Interview Score": 0.24457020404600907,
+  "Overall Visual Representation": "overall_evaluation_report.png",
+  "Question-wise Scores": {
+    "Coherence": [
+      0.5
+    ],
+    "Communication Skills": [
+      0.33076923076923076
+    ],
+    "Critical Thinking": [
+      0.31683168316831684
+    ],
+    "Depth of Answer": [
+      0.27364438839848676
+    ],
+    "Keyword Match Ratio": [
+      0.014492753623188406
+    ],
+    "Relevance Score": [
+      0.031683168316831684
+    ]
+  }
+}
