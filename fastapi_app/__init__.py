@@ -30,6 +30,7 @@ gpt_version = GPT_VERSION_4O
 
 # Set OpenAI API Key
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+assert OPENAI_API_KEY, "Please set your OpenAI API Key in a .env file"
 openai.api_key = OPENAI_API_KEY
 
 print("start loading model")
