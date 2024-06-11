@@ -11,8 +11,7 @@ import candidateRoutes from './routes/candidateRoutes.js';
 import questionRoutes from './routes/questionRoutes.js';
 import assessmentRoutes from './routes/assessmentRoutes.js';
 import responseRoutes from './routes/responseRoutes.js';
-
-
+import analysisRoutes from './routes/analysisRoutes.js';
 const app = express();
 
 app.use(express.json());
@@ -34,7 +33,7 @@ app.use('/api/candidates',candidateRoutes);
 app.use('/api/questions',questionRoutes);
 app.use('/api/assessments',assessmentRoutes);
 app.use('/api/responses',responseRoutes);
-
+app.use('/data', analysisRoutes);
 app.use(errorHandler);
 
 const server = http.createServer(app);

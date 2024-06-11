@@ -18,7 +18,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
-
+from typing import List  #rushabh
+import requests
+import json
 load_dotenv()
 
 # set the GPT version to use
@@ -28,7 +30,6 @@ gpt_version = GPT_VERSION_4O
 
 # Set OpenAI API Key
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-assert OPENAI_API_KEY, "Please set your OpenAI API Key in a .env file"
 openai.api_key = OPENAI_API_KEY
 
 print("start loading model")
@@ -212,7 +213,7 @@ async def home():
 
 # Define request model
 class TopicRequest(BaseModel):
-    topics: list[str] = ["dsa", "oops"]
+    topics: List[str] = ["dsa", "oops"]
 
 
 @app.post("/generate_questions")
@@ -226,6 +227,31 @@ async def generate_questions(request: TopicRequest):
     return JSONResponse(content=questions)
 
 
+# @app.post("/evaluate_candidate_audio_response_for_given_question")
+# async def evaluate_candidate_audio_response_for_given_question(
+#     audio_file: UploadFile = File(...), question: str = Form(...)
+# ):
+#     print("audio_file: ", audio_file)
+#     print("question: ", question)
+
+#     if not audio_file or not question:
+#         raise HTTPException(
+#             status_code=400,
+#             detail="Please provide both the audio file and the question.",
+#         )
+
+#     audio_filename = "audio_file.wav"
+#     with open(audio_filename, "wb") as f:
+#         f.write(await audio_file.read())
+
+#     try:
+#         final_report = await evaluate_audio_response_for_given_question(
+#             audio_filename, question
+#         )
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
+
+#     return JSONResponse(content=final_report)
 @app.post("/evaluate_candidate_audio_response_for_given_question")
 async def evaluate_candidate_audio_response_for_given_question(
     audio_file: UploadFile = File(...), question: str = Form(...)
@@ -233,24 +259,46 @@ async def evaluate_candidate_audio_response_for_given_question(
     print("audio_file: ", audio_file)
     print("question: ", question)
 
+    # Check if audio file and question are provided
     if not audio_file or not question:
         raise HTTPException(
             status_code=400,
             detail="Please provide both the audio file and the question.",
         )
 
+    # Save audio file locally
     audio_filename = "audio_file.wav"
     with open(audio_filename, "wb") as f:
         f.write(await audio_file.read())
 
     try:
+        # Evaluate audio response for given question
         final_report = await evaluate_audio_response_for_given_question(
             audio_filename, question
         )
+        
+        # Serialize final_report to JSON
+        final_report_json = json.dumps(final_report)
+        
+        # Prepare data to send to Node.js server
+        data_to_send = {
+            "question": question,
+            "audio_file_name": audio_filename,
+            "evaluation_report": final_report_json
+        }
+        
+        # URL of Node.js server endpoint
+        node_server_url = "http://localhost:5002/data/receive-data"
+        
+        # Send data to Node.js server
+        response = requests.post(node_server_url, json=data_to_send)
+        
+        # Print response from Node.js server
+        print("Response from Node.js server:", response.text)
+        
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
     return JSONResponse(content=final_report)
-
 
 print("done loading application")
