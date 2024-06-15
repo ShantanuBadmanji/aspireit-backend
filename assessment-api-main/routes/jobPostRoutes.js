@@ -1,6 +1,6 @@
 import express from 'express';
 
-import {getJobposts,getJobpostsById,createJobPost,updateJobPost,deleteJobPost} from '../controllers/jobPostFunction.js';
+import {getJobposts,getJobpostsById,createJobPost,updateJobPost,deleteJobPost, applyJobPost} from '../controllers/jobPostFunction.js';
 
 const router = express.Router();
 
@@ -12,5 +12,8 @@ router.route('/:id')
   .get(getJobpostsById)
   .put(updateJobPost)
   .delete(deleteJobPost);
+
+router.route('/:id/apply')
+  .post(applyJobPost);
 
 export default router;
