@@ -18,9 +18,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
-from typing import List  #rushabh
+from typing import List  # rushabh
 import requests
 import json
+
 load_dotenv()
 
 # set the GPT version to use
@@ -30,6 +31,9 @@ gpt_version = GPT_VERSION_4O
 
 # Set OpenAI API Key
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+# keep below line to ensure the API key is set as an environment variable
+assert OPENAI_API_KEY, "Please set your OpenAI API Key as an environment variable."
+
 openai.api_key = OPENAI_API_KEY
 
 print("start loading model")
@@ -212,19 +216,45 @@ async def home():
 
 
 # Define request model
-class TopicRequest(BaseModel):
+class TopicsRequest(BaseModel):
     topics: List[str] = ["dsa", "oops"]
 
 
 @app.post("/generate_questions")
-async def generate_questions(request: TopicRequest):
+async def generate_questions(request: TopicsRequest):
     topics = request.topics
     print("topics: ", topics)
+
+    question_promises = [generate_question(topic) for topic in topics]
+    questions = await asyncio.gather(*question_promises)
+
     questions = [
-        {"question": await generate_question(topic), "topic": topic} for topic in topics
+        {"question": question, "topic": topic}
+        for topic, question in zip(topics, questions)
     ]
 
     return JSONResponse(content=questions)
+
+
+# Define request model
+class ReferenceAnswersRequest(BaseModel):
+    questions: List[str] = ["What is a linked list?", "What is polymorphism?"]
+
+
+@app.post("/generate_reference_answers")
+async def generate_reference_answers(request: ReferenceAnswersRequest):
+    questions = request.questions
+    print("questions: ", questions)
+
+    answer_promises = [generate_reference_answer(question) for question in questions]
+    answers = await asyncio.gather(*answer_promises)
+
+    reference_answers = [
+        {"question": question, "answer": answer}
+        for question, answer in zip(questions, answers)
+    ]
+
+    return JSONResponse(content=reference_answers)
 
 
 # @app.post("/evaluate_candidate_audio_response_for_given_question")
@@ -251,6 +281,7 @@ async def generate_questions(request: TopicRequest):
 #     except Exception as e:
 #         raise HTTPException(status_code=500, detail=str(e))
 
+
 #     return JSONResponse(content=final_report)
 @app.post("/evaluate_candidate_audio_response_for_given_question")
 async def evaluate_candidate_audio_response_for_given_question(
@@ -276,29 +307,30 @@ async def evaluate_candidate_audio_response_for_given_question(
         final_report = await evaluate_audio_response_for_given_question(
             audio_filename, question
         )
-        
+
         # Serialize final_report to JSON
         final_report_json = json.dumps(final_report)
-        
+
         # Prepare data to send to Node.js server
         data_to_send = {
             "question": question,
             "audio_file_name": audio_filename,
-            "evaluation_report": final_report_json
+            "evaluation_report": final_report_json,
         }
-        
+
         # URL of Node.js server endpoint
         node_server_url = "http://localhost:5002/api/data/receive-data"
-        
+
         # Send data to Node.js server
         response = requests.post(node_server_url, json=data_to_send)
-        
+
         # Print response from Node.js server
         print("Response from Node.js server:", response.text)
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
     return JSONResponse(content=final_report)
 
-print("done loading application")   
+
+print("done loading application")
