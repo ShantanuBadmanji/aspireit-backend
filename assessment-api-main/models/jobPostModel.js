@@ -19,8 +19,8 @@ const jobPostSchema = new mongoose.Schema({
       },
       status: {
         type: String,
-        enum: ['Open', 'Closed'],
-        default: 'Open',
+        type: Boolean,
+        default: false,
       },
       postedAt: {
         type: Date,
