@@ -223,9 +223,14 @@ async def generate_questions(request: TopicRequest):
     
     try:
         # Generate questions asynchronously for each topic
+        question_promises = [generate_question(topic) for topic in topics]
+        questions = await asyncio.gather(*question_promises)
+
         questions = [
-            {"question": await generate_question(topic), "topic": topic} for topic in topics
-        ]
+            {"question": question, "topic": topic}
+              for topic, question in zip(topics, questions)
+    ]
+
         
         # Prepare data to send to Node.js server
         data_to_send = {"questions": questions}
