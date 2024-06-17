@@ -52,6 +52,10 @@ const jobPostSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      isAcceptingApplications: {
+        type: Boolean,
+        default: true,
+      },
     });
 
     const JobPost = mongoose.model('JobPost', jobPostSchema);
