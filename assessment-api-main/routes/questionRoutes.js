@@ -1,9 +1,8 @@
 import express from 'express';
-import { getQuestions, createQuestion, deleteQuestion } from '../controllers/questionFunctions.js';
 
-const routes = express.Router();
 
-routes.route('/').get(getQuestions).post(createQuestion);
-routes.route('/:id').delete(deleteQuestion);
+import { createQuestions } from '../controllers/questionFunctions.js';
+const router = express.Router();
+router.post('/', createQuestions);
 
-export default routes;
+export default router;

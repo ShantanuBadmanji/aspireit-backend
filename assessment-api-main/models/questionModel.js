@@ -1,26 +1,23 @@
 import mongoose from "mongoose";
 
 const questionSchema = new mongoose.Schema({
-    question:{
+    question: {
         type: String,
-        required: true
+        required: true,
     },
-    accepted_keywords:{
-        type: [String],
-        default: []
-    },
-    difficulty:{
+    topic: {
         type: String,
-        enum: ['easy', 'medium', 'hard'],
-        default: 'medium'
+        enum: ['dsa', 'oops', 'frontend', 'backend', 'ml', 'networks', 'dbms', 'os', 'cloud','java'],
+        default: 'dsa',
     },
-    topic:{
-        type: String,
-        enum: ['dsa', 'oops', 'frontend', 'backend', 'ml', 'networks', 'dbms', 'os', 'cloud'],
-        default: 'dsa'
-    }
-},{timestamps: true});
+    // difficulty: {
+    //     type: String,
+    //     enum: ['easy', 'medium', 'hard'],
+    //     default: 'medium',
+  
+}, { timestamps: true });
 
-const questionModel = mongoose.model('Question', questionSchema);
 
-export default questionModel;
+const Question = mongoose.model('Question', questionSchema);
+
+export default Question;

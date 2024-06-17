@@ -18,7 +18,7 @@ const jobPostSchema = new mongoose.Schema({
         default: false,
       },
       status: {
-        type: String,
+      
         type: Boolean,
         default: false,
       },
@@ -52,10 +52,7 @@ const jobPostSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      isAcceptingApplications: {
-        type: Boolean,
-        default: true,
-      },
+    
     });
 
     const JobPost = mongoose.model('JobPost', jobPostSchema);
