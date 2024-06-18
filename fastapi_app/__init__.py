@@ -213,7 +213,7 @@ async def home():
 
 # Define request model
 class TopicRequest(BaseModel):
-    topics: List[str] = ["dsa", "oops"]
+    topics: List[str] = ["ai", "nlp", "ml", "opencv"]
 
 
 @app.post("/generate_questions")

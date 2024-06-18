@@ -7,7 +7,7 @@ const questionSchema = new mongoose.Schema({
     },
     topic: {
         type: String,
-        enum: ['dsa', 'oops', 'frontend', 'backend', 'ml', 'networks', 'dbms', 'os', 'cloud','java'],
+        enum: ['dsa', 'oops', 'ai', 'nlp', 'ml', 'opencv', 'dbms', 'os', 'cloud','java'],
         default: 'dsa',
     },
     // difficulty: {

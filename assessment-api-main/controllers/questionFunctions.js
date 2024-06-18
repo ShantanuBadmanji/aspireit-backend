@@ -74,7 +74,7 @@ const createQuestions = async (req, res) => {
           if (typeof question.question !== 'string' || question.question.trim() === '') {
               throw new Error('Question must be a non-empty string');
           }
-          if (!question.topic || !['dsa', 'java', 'oops', 'frontend', 'backend', 'ml', 'networks', 'dbms', 'os', 'cloud'].includes(question.topic)) {
+          if (!question.topic || !['dsa', 'oops', 'ai', 'nlp', 'ml', 'opencv', 'dbms', 'os', 'cloud','java'].includes(question.topic)) {
               throw new Error('Invalid topic');
           }
       });
