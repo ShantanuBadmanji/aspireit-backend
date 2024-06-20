@@ -26,12 +26,10 @@ const jobPostSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
       },
-      applicants: 
-      [{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Candidate",
-        default: [],
-      }], //reffers to the candidate model
+      applicants: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Candidate"
+    }],
       views: {
         type: Number,
         default: 0,

@@ -108,38 +108,32 @@ const applyJobPost = async (req, res) => {
     try {
         const updatedJobPost = await JobPost.findByIdAndUpdate(
             req.params.id,
-            {
-                $push: { applicants: jobApplicantId },
-            },
+            { $push: { applicants: jobApplicantId } },
             { new: true, runValidators: true }
         );
 
-        if (updatedJobPost) {
-            res.json(updatedJobPost);
-        } else {
-            res.status(404).json({ message: "Job Post not found" });
+        if (!updatedJobPost) {
+            return res.status(404).json({ message: "Job Post not found" });
         }
+
+        res.json(updatedJobPost);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 };
-
 const getApplicantsByJobPostId = async (req, res) => {
     try {
-        const jobPost = await JobPost.findById(req.params.id);
-        if (jobPost) {
-            const applicantIds = jobPost.applicants;
-            const candidates = await candidateModel.find({
-                _id: { $in: applicantIds },
-            });
-            res.json(candidates);
+        const jobPost = await JobPost.findById(req.params.id).populate('applicants');
+        if (!jobPost) {
+            return res.status(404).json({ message: "Job Post not found" });
         }
+
+        res.json(jobPost.applicants);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message });
     }
 };
-
 export {
     getJobposts,
     getJobpostsById,
