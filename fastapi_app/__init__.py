@@ -203,7 +203,7 @@ async def evaluate_audio_response_for_given_question(audio_filename, question):
     return final_report
 
 
-default_topics = ["ml", "ai"]
+default_topics = ["ai", "ml"]
 
 
 @app.get("/")
