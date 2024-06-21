@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const candidateSchema = new mongoose.Schema(
   {
@@ -31,14 +31,41 @@ const candidateSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
-    // assessments:{
-    //     type: [assessmentSchema],
-    //     default: []
-    // }
+    role: {
+      type: String,
+      required: true,
+    },
+    skills: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+    },
+    active: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
+    current: {
+      type: String,
+      required: true,
+    },
+    img: {
+      type: String,
+      required: false,
+    },
+    percentage: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+  
   },
   { timestamps: true }
 );
 
-const candidateModel = mongoose.model("Candidate", candidateSchema);
+const candidateModel = mongoose.model('Candidate', candidateSchema);
 
 export default candidateModel;
