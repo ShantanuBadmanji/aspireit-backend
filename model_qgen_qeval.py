@@ -8,6 +8,10 @@ from faster_whisper import WhisperModel
 from collections import defaultdict
 import pickle
 import pyttsx3
+from flask import Flask, request, jsonify
+import requests
+from fastapi.responses import JSONResponse
+from fastapi import FastAPI, File, Form, UploadFile, HTTPException
 
 # Load your OpenAI API Key from an environment variable for security
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -17,6 +21,8 @@ os.environ['PATH'] += os.pathsep + '/usr/local/bin'  # Update this path for macO
 
 # Load Sentence Transformer Model for semantic similarityy
 semantic_model = SentenceTransformer('all-MiniLM-L6-v2')
+
+app=Flask(__name__)
 
 # Define topics for the interview
 topics = [
@@ -85,6 +91,35 @@ def generate_question(topic):
     )
     return response['choices'][0]['message']['content']
 
+
+@app.route('/generate_questions', methods=['POST'])
+def generate_questions_endpoint():
+    data = request.get_json()
+    topics_input = data.get('topics')
+    if not topics_input:
+        return jsonify({'error': 'Topics are required'}), 400
+    
+    if isinstance(topics_input, str):
+        topics = [topic.strip() for topic in topics_input.split(',')]
+    elif isinstance(topics_input, list):
+        topics = topics_input
+    else:
+        return jsonify({'error': 'Invalid topics format'}), 400
+
+    try:
+        data_to_send = {"questions": {}}
+        for topic in topics:
+            response = requests.post("http://localhost:5002/api/questions/", json={"topic": topic, "content": generate_question(topic)})
+            response.raise_for_status()
+            data_to_send["questions"][topic] = response.json()["question"]
+
+        return jsonify(data_to_send)
+    except requests.RequestException as e:
+        return jsonify({'error': f"Failed to communicate with Node.js server: {str(e)}"}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
 # Generate follow-up question using OpenAI
 def generate_followup_question(topic, context):
     prompt = f"Generate a concise follow-up question (max 20 words) about {topic} based on the candidate's previous response: {context}"
@@ -112,6 +147,24 @@ def generate_reference_answer(question):
         temperature=0.6
     )
     return response['choices'][0]['message']['content']
+
+
+@app.route('/generate_reference_answer', methods=['POST'])
+def generate_reference_answer_endpoint():
+    data = request.get_json()
+    question = data.get('question')
+    if not question:
+        return jsonify({'error': 'Question is required'}), 400
+
+    try:
+        reference_answer = generate_reference_answer(question)
+        return jsonify({'reference_answer': reference_answer})
+    except Exception as e:
+        return jsonify({'error': f"Failed to generate reference answer: {str(e)}"}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
+    
 
 # Compare candidate answer with reference answer
 def compare_answers(candidate_answer, reference_answer):
@@ -222,3 +275,4 @@ results, report_data, total_questions_asked = conduct_interview(topics)
 # Save the total questions asked
 with open('total_questions_asked.pkl', 'wb') as f:
     pickle.dump(total_questions_asked, f)
+

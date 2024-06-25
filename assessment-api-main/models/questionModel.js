@@ -1,20 +1,8 @@
 import mongoose from "mongoose";
 
 const questionSchema = new mongoose.Schema({
-    question: {
-        type: String,
-        required: true,
-    },
-    topic: {
-        type: String,
-        enum: ['dsa', 'oops', 'ai', 'nlp', 'ml', 'opencv', 'dbms', 'os', 'cloud','java'],
-        default: 'dsa',
-    },
-    // difficulty: {
-    //     type: String,
-    //     enum: ['easy', 'medium', 'hard'],
-    //     default: 'medium',
-  
+    topic: { type: String, required: true },
+    content: { type: String, required: true }
 }, { timestamps: true });
 
 

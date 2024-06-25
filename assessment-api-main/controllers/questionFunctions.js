@@ -61,32 +61,14 @@ import Question from "../models/questionModel.js";
 // controllers/questionController.js
 
 const createQuestions = async (req, res) => {
-  try {
-      const { questions } = req.body;
-
-      // Validate incoming data
-      if (!Array.isArray(questions)) {
-          return res.status(400).json({ error: 'Questions should be an array' });
-      }
-
-      // Validate each question
-      questions.forEach(question => {
-          if (typeof question.question !== 'string' || question.question.trim() === '') {
-              throw new Error('Question must be a non-empty string');
-          }
-          if (!question.topic || !['dsa', 'oops', 'ai', 'nlp', 'ml', 'opencv', 'dbms', 'os', 'cloud','java'].includes(question.topic)) {
-              throw new Error('Invalid topic');
-          }
-      });
-
-      // Save questions to MongoDB
-      const savedQuestions = await Question.insertMany(questions);
-
-      res.status(201).json(savedQuestions);
-  } catch (error) {
-      console.error('Error saving questions:', error.message);
-      res.status(500).json({ error: 'Failed to save questions' });
-  }
+    try {
+        const { topic, content } = req.body;
+        const newQuestion = new Question({ topic, content });
+        await newQuestion.save();
+        res.json({ message: 'Question created successfully', question: newQuestion });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
 export { createQuestions };
