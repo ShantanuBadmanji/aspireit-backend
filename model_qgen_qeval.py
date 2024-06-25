@@ -8,30 +8,19 @@ from faster_whisper import WhisperModel
 from collections import defaultdict
 import pickle
 import pyttsx3
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import requests
-from fastapi.responses import JSONResponse
-from fastapi import FastAPI, File, Form, UploadFile, HTTPException
-
+from werkzeug.utils import secure_filename
 # Load your OpenAI API Key from an environment variable for security
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # Ensure the directory containing ffmpeg is in the PATH environment variable
 os.environ['PATH'] += os.pathsep + '/usr/local/bin'  # Update this path for macOS
 
-# Load Sentence Transformer Model for semantic similarityy
+# Load Sentence Transformer Model for semantic similarity
 semantic_model = SentenceTransformer('all-MiniLM-L6-v2')
 
-app=Flask(__name__)
-
-# Define topics for the interview
-topics = [
-    "What is the difference between weak AI and strong AI?",
-    "Explain the concept of machine learning.",
-    "Discuss the concept of transfer learning in deep learning.",
-    "Describe the challenges of data preprocessing.",
-    "What methods can be used to reduce bias in AI?"
-]
+app = Flask(__name__)
 
 # Set the directory for storing audio files
 audio_file_directory = './audio_files'
@@ -40,30 +29,15 @@ audio_file_directory = './audio_files'
 if not os.path.exists(audio_file_directory):
     os.makedirs(audio_file_directory)
 
-# Record audio function
-def record_audio(filename, duration=60, sample_rate=16000):
-    print(f"Recording for {duration} seconds. Please answer the question...")
-    recording = sd.rec(int(duration * sample_rate), samplerate=sample_rate, channels=1)
-    sd.wait()  # Wait until recording is finished
-    wav.write(filename, sample_rate, recording)
-    print(f"Recording completed and saved as {filename}.")
-    return filename  # Return the path of the recorded file
-
 # Initialize pyttsx3 for TTS (Windows)
 tts_engine = pyttsx3.init()
 
 # Set up Whisper model for TTS
 tts_model = WhisperModel("distil-large-v3", device="cpu", compute_type="int8")
 
-# Speak function using pyttsx3
-def speak(text):
-    tts_engine.say(text)
-    tts_engine.runAndWait()
-
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = WhisperModel("base", device=device, compute_type="float16" if device == "cuda" else "int8")
 
-# Transcribe speech to text using Whisper model
 def speech_to_text(audio_file_path):
     if not os.path.isfile(audio_file_path):
         print(f"Error: audio file {audio_file_path} not found.")
@@ -76,6 +50,20 @@ def speech_to_text(audio_file_path):
     except Exception as e:
         print(f"Error transcribing audio file {audio_file_path}: {e}")
         return ""
+    
+# Record audio function
+def record_audio(filename, duration=60, sample_rate=16000):
+    print(f"Recording for {duration} seconds. Please answer the question...")
+    recording = sd.rec(int(duration * sample_rate), samplerate=sample_rate, channels=1)
+    sd.wait()  # Wait until recording is finished
+    wav.write(filename, sample_rate, recording)
+    print(f"Recording completed and saved as {filename}.")
+    return filename  # Return the path of the recorded file
+
+# Speak function using pyttsx3
+def speak(text):
+    tts_engine.say(text)
+    tts_engine.runAndWait()
 
 # Generate interview question using OpenAI
 def generate_question(topic):
@@ -92,35 +80,7 @@ def generate_question(topic):
     return response['choices'][0]['message']['content']
 
 
-@app.route('/generate_questions', methods=['POST'])
-def generate_questions_endpoint():
-    data = request.get_json()
-    topics_input = data.get('topics')
-    if not topics_input:
-        return jsonify({'error': 'Topics are required'}), 400
-    
-    if isinstance(topics_input, str):
-        topics = [topic.strip() for topic in topics_input.split(',')]
-    elif isinstance(topics_input, list):
-        topics = topics_input
-    else:
-        return jsonify({'error': 'Invalid topics format'}), 400
 
-    try:
-        data_to_send = {"questions": {}}
-        for topic in topics:
-            response = requests.post("http://localhost:5002/api/questions/", json={"topic": topic, "content": generate_question(topic)})
-            response.raise_for_status()
-            data_to_send["questions"][topic] = response.json()["question"]
-
-        return jsonify(data_to_send)
-    except requests.RequestException as e:
-        return jsonify({'error': f"Failed to communicate with Node.js server: {str(e)}"}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-# Generate follow-up question using OpenAI
 def generate_followup_question(topic, context):
     prompt = f"Generate a concise follow-up question (max 20 words) about {topic} based on the candidate's previous response: {context}"
     response = openai.ChatCompletion.create(
@@ -133,6 +93,7 @@ def generate_followup_question(topic, context):
         temperature=0.6
     )
     return response['choices'][0]['message']['content']
+
 
 # Generate reference answer using OpenAI
 def generate_reference_answer(question):
@@ -147,24 +108,6 @@ def generate_reference_answer(question):
         temperature=0.6
     )
     return response['choices'][0]['message']['content']
-
-
-@app.route('/generate_reference_answer', methods=['POST'])
-def generate_reference_answer_endpoint():
-    data = request.get_json()
-    question = data.get('question')
-    if not question:
-        return jsonify({'error': 'Question is required'}), 400
-
-    try:
-        reference_answer = generate_reference_answer(question)
-        return jsonify({'reference_answer': reference_answer})
-    except Exception as e:
-        return jsonify({'error': f"Failed to generate reference answer: {str(e)}"}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
-    
 
 # Compare candidate answer with reference answer
 def compare_answers(candidate_answer, reference_answer):
@@ -243,7 +186,7 @@ def conduct_interview(topics, recording_duration=60):
                 report_data["Response"].append(candidate_response)
                 report_data["Relevance Score"].append(scores["Relevance Score"])
 
-                if "Follow-up Relevance Score" in scores:
+                if "Follow-up Relevance Score" in scores:   
                     report_data["Follow-up Question"].append(followup_question)
                     report_data["Follow-up Response"].append(candidate_followup_response)
                     report_data["Follow-up Relevance Score"].append(scores["Follow-up Relevance Score"])
@@ -269,10 +212,78 @@ def conduct_interview(topics, recording_duration=60):
 
     return results, report_data, total_questions_asked
 
-# Run the interview process
-results, report_data, total_questions_asked = conduct_interview(topics)
+@app.route('/generate_questions', methods=['POST'])
+def generate_questions_endpoint():
+    data = request.get_json()
+    topics_input = data.get('topics')
+    
+    if not topics_input:
+        return jsonify({'error': 'Topics are required'}), 400
+    
+    try:
+        questions = {}
+        for topic in topics_input:
+            questions[topic] = generate_question(topic)
+        
+        return jsonify({'questions': questions})
+    except Exception as e:
+        return jsonify({'error': f"Failed to generate questions: {str(e)}"}), 500
+    
+@app.route('/record_responses', methods=['POST'])
+def record_responses_endpoint():
+    try:
+        # Extract form data
+        topics = request.form.getlist('topics[]')
+        questions = request.form.getlist('questions[]')
+        audio_files = request.files.getlist('audio_files[]')
+        recording_duration = int(request.form.get('recording_duration', 60))
 
-# Save the total questions asked
-with open('total_questions_asked.pkl', 'wb') as f:
-    pickle.dump(total_questions_asked, f)
+        if not topics or not questions or not audio_files:
+            return jsonify({'error': 'Topics, questions, and audio files must be provided'}), 400
 
+        report_data = []
+        for idx, (topic, question) in enumerate(zip(topics, questions)):
+            # Ensure question and topic are not empty
+            if not question.strip() or not topic.strip():
+                print(f'Skipping invalid input for topic "{topic}"')
+                continue
+
+            reference_answer = generate_reference_answer(question)
+
+            # Save audio file
+            audio_file = audio_files[idx]
+            if audio_file.filename == '':
+                print(f'No selected file for topic "{topic}"')
+                continue
+            
+            audio_filename = secure_filename(audio_file.filename)
+            audio_file_path = os.path.join(audio_file_directory, audio_filename)
+            audio_file.save(audio_file_path)
+
+            # Convert audio to text
+            candidate_response = speech_to_text(audio_file_path)
+            if not is_meaningful_response(candidate_response):
+                print(f"No meaningful response detected for topic '{topic}'. Skipping.")
+                continue
+
+            # Evaluate response
+            scores = evaluate_candidate_response(candidate_response, reference_answer)
+            print(f"Candidate's Response to '{topic}': {candidate_response}")
+
+            # Collect report data
+            report_data.append({
+                "Question": question,
+                "Topic": topic,
+                "Response": candidate_response,
+                "Relevance Score": scores["Relevance Score"]
+            })
+
+        # Save the report data
+        with open('final_report.pkl', 'wb') as f:
+            pickle.dump(report_data, f)
+
+        return jsonify({'report_data': report_data})
+    except Exception as e:
+        return jsonify({'error': f"Failed to record responses: {str(e)}"}), 500
+if __name__ == '__main__':
+    app.run(debug=True)
